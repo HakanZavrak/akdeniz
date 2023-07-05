@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="assets/css/flystyle.css">
+</head>
+
+<body>
+    <article class="fly">
+        <header>   
+          <h1 class="fly__title"><span class="fly__title--top">Tickets</span></h1>
+        </header>
+    </article>
+        
+    <div class="zuc">
+        <label for="airportFilter">Filter by Airport:</label>
+        <select id="airportFilter">
+          <option value="">All</option>
+          <option value="London Gatwick">London Gatwick</option>
+          <option value="Luton">Luton</option>
+          <option value="Stansted">Stansted</option>
+          <option value="Heathrow">Heathrow</option>
+        </select>
+        
+        <label for="priceRangeFilter">Filter by Price Range:</label>
+        <input type="number" id="minPriceFilter" min="0" placeholder="Min Price">
+        <input type="number" id="maxPriceFilter" min="0" placeholder="Max Price">
+    </div>
+    <article class="fly">
+        <main class="fly__profiles" id="ticketList">
+        </main>
+    </article>
+
+    <script>
+        fetch('fligthJSONList.json')
+          .then(response => response.json())
+          .then(jsonResponse => {
+            var ticketListContainer = document.getElementById('ticketList');
+            var airportFilter = document.getElementById('airportFilter');
+            var minPriceFilter = document.getElementById('minPriceFilter');
+            var maxPriceFilter = document.getElementById('maxPriceFilter');
+
+            function filterTickets() {
+              var selectedAirport = airportFilter.value;
+              var minPrice = minPriceFilter.value === '' ? 0 : parseFloat(minPriceFilter.value);
+              var maxPrice = maxPriceFilter.value === '' ? Infinity : parseFloat(maxPriceFilter.value);
+
+              ticketListContainer.innerHTML = '';
+
+              for (var i = 0; i < jsonResponse.response.itineraryList.length; i++) {
+                var itinerary = jsonResponse.response.itineraryList[i];
+
+                for (var j = 0; j < itinerary.flightOptionList.length; j++) {
+                  var flightOption = itinerary.flightOptionList[j];
+                  var fareOption = flightOption.fareOptionList[0]; 
+
+                  var departureAirport = flightOption.departureAirport.name;
+                  var arrivalAirport = flightOption.arrivalAirport.name;
+                  var price = fareOption.priceInRequestedCurrency;
+                  var flightNo = flightOption.flightNo;
+
+                  if ((selectedAirport === '' || departureAirport === selectedAirport || arrivalAirport === selectedAirport) &&
+                      (parseFloat(price) >= minPrice && parseFloat(price) <= maxPrice)) {
+                    var ticket = document.createElement('article');
+                    ticket.className = 'fly__profile';
+
+                    var departureTime = new Date(flightOption.departureTime).toLocaleString('en-US', { timeStyle: 'short' });
+                    var arrivalTime = new Date(flightOption.arrivalTime).toLocaleString('en-US', { timeStyle: 'short' });
+
+                    ticket.innerHTML = '<span class="fly__name">'+""+flightNo +" "+ departureAirport + ' to ' + arrivalAirport + '</span>' +
+                      '<span class="fly__value">Departure and Arrival Time: ' + departureTime + ' - ' + arrivalTime + '<span></span></span>' + '<span class="fly__value">Price: ' + price + ' TL</span>';
+
+                    ticketListContainer.appendChild(ticket);
+                  }
+                }
+              }
+            }
+
+            airportFilter.addEventListener('change', filterTickets);
+            minPriceFilter.addEventListener('input', filterTickets);
+            maxPriceFilter.addEventListener('input', filterTickets);
+
+            filterTickets();
+          })
+          .catch(error => console.error('Error reading the JSON file:', error));
+    </script>
+</body>
+</html>

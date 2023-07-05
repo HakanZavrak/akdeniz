@@ -1,0 +1,122 @@
+.fly {
+  max-width: 1490px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.fly header {
+  --start: 15%;
+  height: 130px;
+  background-color: rgba(255, 217, 0, 0.678);
+  color: #fff;
+  position: relative;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.fly header .fly__title {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: calc(var(--start) * .75);
+  transform: translateY(-50%);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.fly header .fly__title--top {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 6.5px;
+}
+
+.fly__profiles {
+  background-color: #fff;
+  border-radius: 0 0 12px 12px;
+  padding: 15px 15px 20px;
+  display: grid;
+  row-gap: 20px;
+}
+
+.fly__profile {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  padding: 10px 30px 10px 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px -3px black;
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
+  background-color: #fff;
+}
+
+.fly__profile:hover {
+  transform: scale(1.2);
+  box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+}
+
+
+.fly__name {
+  color: #334fc2;
+  font-weight: 700;
+  font-size: 20px;
+  margin-left: 12px;
+}
+
+.fly__value {
+  color: blueviolet;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  flex-wrap: nowrap;
+  white-space: nowrap
+}
+
+.fly__value > span {
+  opacity: .8;
+  font-weight: 600;
+  font-size: 13px;
+  margin-left: 3px;
+}
+
+body {
+  margin: 0;
+  background-color: #eaeaea;
+  display: grid;
+  height: 100vh;
+  place-items: center;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.zuc {
+    margin: 20px 0;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  #airportFilter {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 40px;
+  }
+  
+  #minPriceFilter,
+  #maxPriceFilter {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 10px;
+    width: 100px;
+  }
+  
+  #minPriceFilter::placeholder,
+  #maxPriceFilter::placeholder {
+    color: #999;
+  }
+  
+  #minPriceFilter:focus,
+  #maxPriceFilter:focus {
+    outline: none;
+    border-color: blue;
+  }
